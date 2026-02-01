@@ -1,0 +1,32 @@
+# --- Python rác ---
+__pycache__/
+*.py[cod]
+*$py.class
+.venv/
+venv/
+env/
+
+# --- IDE rác ---
+.idea/
+.vscode/
+
+# --- Dữ liệu & Mô hình (Rất quan trọng) ---
+# Không nên push dataset và trọng số mô hình vì dung lượng rất lớn
+data/
+datasets/
+*.zip
+*.tar.gz
+*.rar
+
+# Các file trọng số của BERT hoặc model sau khi train
+*.bin
+*.pth
+*.h5
+*.ckpt
+*.model
+
+# --- Log & Kết quả ---
+logs/
+runs/
+results/
+*.log
