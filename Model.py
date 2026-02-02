@@ -6,23 +6,38 @@ import os
 import  re
 import unicodedata
 import py_vncorenlp
-
+from vncorenlp import VnCoreNLP
 class PhoBert:
     def __init__(self):
         self.device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
         self.phobert = AutoModel.from_pretrained("vinai/phobert-base",output_hidden_states=True).to(self.device)
         self.tokenizer = AutoTokenizer.from_pretrained("vinai/phobert-base")
+        current_dir = os.path.dirname(os.path.abspath(__file__))
+        rdr_path = os.path.join(current_dir, 'vncorenlp')
 
-        if not os.path.exists('./vncorenlp'):
-            py_vncorenlp.download_model(save_dir='./vncorenlp')
-        self.rdr = py_vncorenlp.VnCoreNLP(annotators=["wseg"], save_dir='./vncorenlp')
+        # 2. Kiểm tra xem folder có tồn tại không
+        if not os.path.exists(rdr_path):
+            print(f"LỖI: Không tìm thấy thư mục VnCoreNLP tại: {rdr_path}")
+            # Fallback: Nếu không có thì mới thử tải lại (nhưng khuyên bạn nên tải tay)
+            try:
+                py_vncorenlp.download_model(save_dir=rdr_path)
+            except:
+                print("Không thể tự tải VnCoreNLP. Vui lòng tải thủ công!")
+                raise
+
+        # 3. Khởi tạo trực tiếp
+        try:
+            self.rdr = py_vncorenlp.VnCoreNLP(annotators=["wseg"], save_dir=rdr_path)
+        except Exception as e:
+            print("Lỗi khởi tạo VnCoreNLP. Hãy kiểm tra xem máy đã cài JAVA chưa?")
+            raise e
 
         self.max_len = 256
         self.cls_token = torch.tensor([self.tokenizer.cls_token_id], device=self.device)
         self.sep_token = torch.tensor([self.tokenizer.sep_token_id], device=self.device)
 
     def preprocess(self, text):
-        """Pipeline làm sạch và tách từ chuyên nghiệp"""
+
         if not isinstance(text, str): return ""
 
         # 1. Chuẩn hóa Unicode (NFC)
@@ -41,7 +56,7 @@ class PhoBert:
 
     def extract_feature(self,text,overlap =50):
         text_segment = self.preprocess(text)
-        tokens = self.tokenizer(text, add_special_tokens=False, return_tensors="pt")
+        tokens = self.tokenizer(text_segment, add_special_tokens=False, return_tensors="pt")
         input_ids = tokens["input_ids"][0]
 
         chunk_size = self.max_len - 2
