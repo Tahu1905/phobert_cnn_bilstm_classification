@@ -1,0 +1,74 @@
+[DEBUG] Looking for data at: /workspace/train_new.tsv
+[92m[SUCCESS] GPU Detected: NVIDIA H200 NVL[0m
+
+============================================================
+           PHASE 1: DATA PREPARATION (IN-MEMORY)            
+============================================================
+[94m[INFO]    Initializing PhoBERT for Feature Extraction...[0m
+2026-02-02 16:01:26 INFO  WordSegmenter:24 - Loading Word Segmentation model
+[94m[INFO]    Reading dataset: /workspace/train_new.tsv[0m
+[92m[SUCCESS] Loaded 2177 samples.[0m
+[94m[INFO]    Columns found: ['label', 'sentence'][0m
+[94m[INFO]    Starting Feature Extraction...[0m
+[92m[SUCCESS] Extraction Done. Success: 2177 | Failed: 0[0m
+
+============================================================
+                  PHASE 2: DATA SPLITTING                   
+============================================================
+Set        | Count      | Ratio
+------------------------------
+Train      | 1741       | 80%
+Val        | 218        | 10%
+Test       | 218        | 10%
+
+============================================================
+                  PHASE 3: TRAINING START                   
+============================================================
+[94m[INFO]    Model: BiLSTM_CNN[0m
+[94m[INFO]    Params: Batch=32, LR=0.001[0m
+Epoch [1/20]
+Iter:      0,  Train Loss:  0.75,  Train Acc: 46.88%,  Val Loss:   4.4,  Val Acc: 50.00%,  Time: 0:00:03 *
+Epoch [2/20]
+Iter:    100,  Train Loss:  0.12,  Train Acc: 96.88%,  Val Loss:   0.3,  Val Acc: 88.53%,  Time: 0:00:50 *
+Epoch [3/20]
+Epoch [4/20]
+Iter:    200,  Train Loss:  0.01,  Train Acc: 100.00%,  Val Loss:  0.16,  Val Acc: 95.41%,  Time: 0:01:59 *
+Epoch [5/20]
+Epoch [6/20]
+Iter:    300,  Train Loss: 0.0016,  Train Acc: 100.00%,  Val Loss:  0.13,  Val Acc: 96.33%,  Time: 0:02:55 *
+Epoch [7/20]
+Epoch [8/20]
+Iter:    400,  Train Loss: 7.7e-05,  Train Acc: 100.00%,  Val Loss:  0.14,  Val Acc: 98.17%,  Time: 0:03:27 
+Epoch [9/20]
+Epoch [10/20]
+Iter:    500,  Train Loss: 6.7e-05,  Train Acc: 100.00%,  Val Loss:  0.14,  Val Acc: 97.71%,  Time: 0:04:16 
+Epoch [11/20]
+Iter:    600,  Train Loss: 0.00043,  Train Acc: 100.00%,  Val Loss:  0.15,  Val Acc: 98.17%,  Time: 0:05:11 
+Epoch [12/20]
+Epoch [13/20]
+Iter:    700,  Train Loss: 0.00042,  Train Acc: 100.00%,  Val Loss:  0.14,  Val Acc: 98.17%,  Time: 0:06:04 
+Epoch [14/20]
+Epoch [15/20]
+Iter:    800,  Train Loss: 6.2e-05,  Train Acc: 100.00%,  Val Loss:  0.16,  Val Acc: 98.17%,  Time: 0:06:51 
+Epoch [16/20]
+Epoch [17/20]
+Iter:    900,  Train Loss: 0.048,  Train Acc: 96.88%,  Val Loss:  0.17,  Val Acc: 96.33%,  Time: 0:07:45 
+Epoch [18/20]
+Epoch [19/20]
+Iter:   1000,  Train Loss: 0.0011,  Train Acc: 100.00%,  Val Loss:  0.11,  Val Acc: 98.62%,  Time: 0:08:38 *
+Epoch [20/20]
+Test Loss: 0.067,  Test Acc: 98.17%
+Precision, Recall and F1-Score...
+              precision    recall  f1-score   support
+
+       Human     0.9646    1.0000    0.9820       109
+          AI     1.0000    0.9633    0.9813       109
+
+    accuracy                         0.9817       218
+   macro avg     0.9823    0.9817    0.9816       218
+weighted avg     0.9823    0.9817    0.9816       218
+
+Confusion Matrix...
+[[109   0]
+ [  4 105]]
+Time usage: 0:00:02
